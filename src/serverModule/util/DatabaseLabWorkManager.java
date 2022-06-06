@@ -56,10 +56,25 @@ public class DatabaseLabWorkManager {
             deleteLabWork = databaseManager.doPreparedStatement(SQLConstants.DELETE_LABWORK_BY_ID_AND_USER_ID, false);
             deleteLabWork.setLong(1, labWorkId);
             deleteLabWork.setLong(2, userId);
-            System.out.println(labWorkId + " " + userId);
             if (deleteLabWork.executeUpdate() == 0) throw new SQLException();
         } catch (SQLException exception) {
             System.out.println("Произошла ошибка при выполнении запроса DELETE_LABWORK_BY_ID_AND_USER_ID!");
+            throw new DatabaseManagerException();
+        } finally {
+            databaseManager.closePreparedStatement(deleteLabWork);
+            databaseManager.doInit();
+        }
+    }
+
+
+    public void deleteAllLabWorksByUserId(int userId) throws DatabaseManagerException {
+        PreparedStatement deleteLabWork = null;
+        try {
+            deleteLabWork = databaseManager.doPreparedStatement(SQLConstants.DELETE_LABWORK_USER_ID, false);
+            deleteLabWork.setLong(1, userId);
+            if (deleteLabWork.executeUpdate() == 0) throw new SQLException();
+        } catch (SQLException exception) {
+            System.out.println("Произошла ошибка при выполнении запроса DELETE_LABWORK_USER_ID!");
             throw new DatabaseManagerException();
         } finally {
             databaseManager.closePreparedStatement(deleteLabWork);

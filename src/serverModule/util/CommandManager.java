@@ -86,13 +86,14 @@ public class CommandManager {
         addCommand(new ShowCommand(collectionManager, databaseLabWorkManager));
         addCommand(new InfoCommand(collectionManager));
         addCommand(new HistoryCommand(collectionManager));
-
+        addCommand(new ClearCommand(collectionManager, databaseUserManager, databaseLabWorkManager));
+        addCommand(new ExecuteScriptCommand(collectionManager, SQLConstants, databaseUserManager,
+                databaseCoordinatesManager, databaseDisciplineManager, databaseLabWorkManager));
 
 
 
 //        addCommand(new AddLabWorkIfMinCommand(collectionManager, SQLConstants));
 //        addCommand(new AverageOfAveragePointCommand(collectionManager, SQLConstants));
-//        addCommand(new ClearCommand(collectionManager, SQLConstants));
 //        addCommand(new CountLessThanAveragePointCommand(collectionManager, SQLConstants));
 //        addCommand(new RemoveLowerCommand(collectionManager, SQLConstants));
 //        addCommand(new RemoveAllByMinimalPointCommand(collectionManager, SQLConstants));

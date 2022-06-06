@@ -74,11 +74,11 @@ public class Console {
                 case "help":
                 case "info":
                 case "show":
-                case "clear":
                 case "history":
                 case "average_of_average_point":
                     return CommandCode.SPECIAL;
                 case "whoami":
+                case "clear":
                     return CommandCode.USER;
                 case "exit":
                     if (!commandArguments.isEmpty()) throw new ParamException();

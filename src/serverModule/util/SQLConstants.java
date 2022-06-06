@@ -141,5 +141,7 @@ public class SQLConstants {
     public static final String DELETE_LABWORK_BY_ID_AND_USER_ID = "DELETE FROM " + LABWORK_TABLE +
             " WHERE " + LABWORK_TABLE_ID_COLUMN + " = ?" + " AND " +
             LABWORK_TABLE_USER_ID_COLUMN + " = ?";
+    public static final String DELETE_LABWORK_USER_ID = "DELETE FROM " + LABWORK_TABLE +
+            " WHERE " + LABWORK_TABLE_USER_ID_COLUMN + " = ?";
 
 }

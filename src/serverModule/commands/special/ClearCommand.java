@@ -1,35 +1,38 @@
 package serverModule.commands.special;
 
 import common.exceptions.DatabaseManagerException;
-import common.exceptions.MultiUserException;
 import common.util.User;
 import common.util.response.ResponseBody;
-import common.util.response.ResponseBodyTypes;
 import serverModule.commands.*;
 import serverModule.collection.CollectionManager;
+import serverModule.util.DatabaseLabWorkManager;
 import serverModule.util.DatabaseUserManager;
-import serverModule.util.ResponseOutputer;
 
 /**
  * Команда, очищающая коллекцию
  */
 public class ClearCommand extends AbstractCommand {
     private final DatabaseUserManager databaseUserManager;
-    public ClearCommand(CollectionManager collectionManager, DatabaseUserManager databaseUserManager) {
+    private final DatabaseLabWorkManager databaseLabWorkManager;
+
+    public ClearCommand(CollectionManager collectionManager, DatabaseUserManager databaseUserManager, DatabaseLabWorkManager databaseLabWorkManager) {
         super("clear", "очистить коллекцию", collectionManager, "");
         this.databaseUserManager = databaseUserManager;
+        this.databaseLabWorkManager = databaseLabWorkManager;
     }
 
     @Override
     public ResponseBody execute(String commandParameters, Object objectArgument, User user) {
         try {
-            if (databaseUserManager.checkUserByUsernameAndPassword(user)) {
-                collectionManager.clear();
-                return new ResponseBody("Коллекция очищена \n");
+            if (user != null) {
+                int userId = databaseUserManager.getUserIdByUsername(user.getLogin());
+                databaseLabWorkManager.deleteAllLabWorksByUserId(userId);
+                return new ResponseBody("Ваши лабораторные удалены \n");
             }
-        } catch (DatabaseManagerException | MultiUserException e) {
-            e.printStackTrace();
+        } catch (DatabaseManagerException e) {
+            return new ResponseBody("У вас нет лабораторных \n");
         }
-        return new ResponseBody("Команда не выполнена! Войдите в аккаунт \n");
+        return new ResponseBody("Команда не выполнена, войдите в аккаунт. \n");
     }
 }
+
