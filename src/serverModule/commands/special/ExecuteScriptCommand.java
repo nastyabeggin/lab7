@@ -9,10 +9,7 @@ import serverModule.commands.*;
 import serverModule.collection.CollectionManager;
 import serverModule.commands.exceptions.ParamException;
 import common.util.Request;
-import serverModule.util.SQLConstants;
-import serverModule.util.DatabaseUserManager;
-import serverModule.util.ResponseOutputer;
-import serverModule.util.CommandManager;
+import serverModule.util.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,11 +26,22 @@ import java.util.Scanner;
 public class ExecuteScriptCommand extends AbstractCommand {
     private final DatabaseUserManager databaseUserManager;
     private final SQLConstants SQLConstants;
+    private final DatabaseCoordinatesManager databaseCoordinatesManager;
+    private final DatabaseDisciplineManager databaseDisciplineManager;
+    private final DatabaseLabWorkManager databaseLabWorkManager;
 
-    public ExecuteScriptCommand(CollectionManager collectionManager, SQLConstants SQLConstants, DatabaseUserManager databaseUserManager) {
+    public ExecuteScriptCommand(CollectionManager collectionManager,
+                                SQLConstants SQLConstants,
+                                DatabaseUserManager databaseUserManager,
+                                DatabaseCoordinatesManager databaseCoordinatesManager,
+                                DatabaseDisciplineManager databaseDisciplineManager,
+                                DatabaseLabWorkManager databaseLabWorkManager) {
         super("execute_script", "считать и исполнить скрипт из указанного файла", collectionManager, "{file_name (String)}");
         this.SQLConstants = SQLConstants;
         this.databaseUserManager = databaseUserManager;
+        this.databaseCoordinatesManager = databaseCoordinatesManager;
+        this.databaseDisciplineManager = databaseDisciplineManager;
+        this.databaseLabWorkManager = databaseLabWorkManager;
     }
 
     @Override
@@ -62,7 +70,9 @@ public class ExecuteScriptCommand extends AbstractCommand {
                         if (!scanner.hasNextLine()) break;
                         String line = scanner.nextLine().trim();
                         List<String> collection = Arrays.asList(line.split(" "));
-                        CommandManager CommandManager = new CommandManager(collectionManager, databaseUserManager, SQLConstants);
+                        CommandManager CommandManager = new CommandManager(collectionManager, databaseUserManager,
+                                SQLConstants, databaseLabWorkManager,
+                                databaseCoordinatesManager, databaseDisciplineManager);
                         if (collection.get(0).equals("execute_script")) {
                             return new ResponseBody("В файле команда execute_script не выполняется");
                         } else {

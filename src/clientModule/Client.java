@@ -13,6 +13,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.TimeUnit;
 
 public class Client {
     private final static String PATH = System.getenv().get("sixth_project");
@@ -62,6 +63,7 @@ public class Client {
                         while (package_number != received) {
                             socketChannel.read(byteBuffer);
                             received++;
+                            TimeUnit.MILLISECONDS.sleep(5);
                         }
                         serverResponse = deserialize();
                         if (serverResponse.getResponseCode().equals(ResponseCode.OK) && (requestToServer.getCommandName().equals("sign_in") || requestToServer.getCommandName().equals("sign_up")))
@@ -75,7 +77,7 @@ public class Client {
                 } catch (NullPointerException ignored) {
                 }
             } while (!requestToServer.getCommandName().equals("exit") && flag);
-        } catch (IOException | ClassNotFoundException | WrongInputException exception) {
+        } catch (IOException | ClassNotFoundException | WrongInputException | InterruptedException exception) {
             System.out.println("Произошла ошибка при работе с сервером!" + exception);
         }
         try {

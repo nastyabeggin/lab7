@@ -6,7 +6,7 @@ public class Discipline implements Serializable {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private long lectureHours;
     private int practiceHours;
-    private Long labsCount; //Поле может быть null
+    private Long labsCount = null; //Поле может быть null
 
     public Discipline(String name,
                       long lectureHours,

@@ -55,6 +55,7 @@ public class Console {
                 case SIGN_UP:
                     return authManager.handle();
                 case LOG_OUT:
+                    return new Request(CommandManagerCommand[0], CommandManagerCommand[1], null, null);
             }
         } catch (FileNotFoundException exception) {
             System.out.println("Файл со скриптом не найден!");

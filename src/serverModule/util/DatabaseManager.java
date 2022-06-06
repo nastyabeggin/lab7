@@ -44,6 +44,8 @@ public class DatabaseManager {
                 createTableIfNotExists(SQLConstants.CREATE_DISCIPLINE_TABLE);
                 createTableIfNotExists(SQLConstants.CREATE_LABWORK_TABLE);
                 initUsersFromDb();
+                initCoordsFromDb();
+                initDisciplinesFromDb();
                 initLabsFromDb();
                 break;
             } catch (SQLException e) {
@@ -215,7 +217,7 @@ public class DatabaseManager {
                 );
             }
             if (MemoryData.getLabs().size() == 0) {
-                System.out.println("В таблице user отсутствуют данные!");
+                System.out.println("В таблице lab_work отсутствуют данные!");
             } else {
                 System.out.println("В память было добавлено " + MemoryData.getLabs().size() + " лабораторных!");
             }
@@ -233,5 +235,72 @@ public class DatabaseManager {
         }
     }
 
+    private void initCoordsFromDb() {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(SQLConstants.SELECT_ALL_COORDINATES);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                MemoryData.putCoords(
+                        resultSet.getLong(SQLConstants.COORDINATES_TABLE_ID_COLUMN),
+                        new Coordinates(
+                                resultSet.getLong(SQLConstants.COORDINATES_TABLE_X_COLUMN),
+                                resultSet.getInt(SQLConstants.COORDINATES_TABLE_X_COLUMN)
+                        )
+                );
+            }
+            if (MemoryData.getCoords().size() == 0) {
+                System.out.println("В таблице coordinates отсутствуют данные!");
+            } else {
+                System.out.println("В память было добавлено " + MemoryData.getCoords().size() + " координат!");
+            }
+            System.out.println(MemoryData.getCoords());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    private void initDisciplinesFromDb() {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(SQLConstants.SELECT_ALL_DISCIPLINES);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                MemoryData.putDiscipline(
+                        resultSet.getLong(SQLConstants.DISCIPLINE_ID_COLUMN),
+                        new Discipline(
+                                resultSet.getString(SQLConstants.DISCIPLINE_TABLE_NAME_COLUMN),
+                                resultSet.getLong(SQLConstants.DISCIPLINE_LECTURE_HOURS_COLUMN),
+                                resultSet.getInt(SQLConstants.DISCIPLINE_PRACTICE_HOURS_COLUMN),
+                                resultSet.getLong(SQLConstants.DISCIPLINE_LABS_COUNT_COLUMN)
+                        )
+                );
+            }
+            if (MemoryData.getDisciplines().size() == 0) {
+                System.out.println("В таблице disciplines отсутствуют данные!");
+            } else {
+                System.out.println("В память было добавлено " + MemoryData.getDisciplines().size() + " дисциплин!");
+            }
+            System.out.println(MemoryData.getDisciplines());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+

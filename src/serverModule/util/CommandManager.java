@@ -13,9 +13,7 @@ import serverModule.commands.exceptions.ParamException;
 import java.util.Collection;
 import java.util.HashMap;
 
-/**
- * Класс пользователя, который вызывает выполнение команд
- */
+
 public class CommandManager {
 
     HashMap<String, Command> commandMap = new HashMap<String, Command>();
@@ -35,13 +33,13 @@ public class CommandManager {
 
     public Response manage(Request request) {
         try {
-            User hashUser;
-            if (request.getUser() == null) {
-                hashUser = null;
-            } else {
-                hashUser = new User(
-                        request.getUser().getLogin(), DataHasher.hash(request.getUser().getPassword() + "!Hq78p@T"));
-            }
+//            User hashUser;
+//            if (request.getUser() == null) {
+//                hashUser = null;
+//            } else {
+//                hashUser = new User(
+//                        request.getUser().getLogin(), DataHasher.hash(request.getUser().getPassword()));
+//            }
             return execCommand(request.getCommandName(), request.getArgument(), request.getObjectArgument(), request.getUser());
         } catch (NullPointerException e) {
             return null;
@@ -57,7 +55,7 @@ public class CommandManager {
                 return new Response(
                         ResponseCode.OK,
                         responseBody
-                        );
+                );
             } catch (ParamException e) {
                 return new Response(
                         ResponseCode.ERROR,
@@ -67,17 +65,22 @@ public class CommandManager {
         }
     }
 
-    public void saveCollection(){
+    public void saveCollection() {
         this.collectionManager.saveToFile();
     }
 
-    public CommandManager(CollectionManager collectionManager, DatabaseUserManager databaseUserManager, SQLConstants SQLConstants) {
+    public CommandManager(CollectionManager collectionManager, DatabaseUserManager databaseUserManager,
+                          SQLConstants SQLConstants, DatabaseLabWorkManager databaseLabWorkManager,
+                          DatabaseCoordinatesManager databaseCoordinatesManager,
+                          DatabaseDisciplineManager databaseDisciplineManager) {
         this.collectionManager = collectionManager;
-        addCommand(new AddLabWorkCommand(collectionManager, databaseUserManager, SQLConstants));
+        addCommand(new AddLabWorkCommand(collectionManager, databaseUserManager,
+                SQLConstants, databaseLabWorkManager, databaseCoordinatesManager, databaseDisciplineManager));
         addCommand(new SignInCommand(collectionManager, databaseUserManager));
         addCommand(new SignUpCommand(collectionManager, databaseUserManager));
-        addCommand(new HelpCommand(collectionManager, SQLConstants, databaseUserManager));
+        addCommand(new HelpCommand(collectionManager, SQLConstants, databaseUserManager, databaseLabWorkManager, databaseCoordinatesManager, databaseDisciplineManager));
         addCommand(new WhoAmICommand(collectionManager, databaseUserManager));
+        addCommand(new LogOutCommand(collectionManager, databaseUserManager));
 
 
 //        addCommand(new ShowCommand(collectionManager, SQLConstants));

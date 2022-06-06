@@ -12,6 +12,7 @@ import java.nio.channels.*;
 import java.nio.channels.spi.SelectorProvider;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Server {
     private int port;
@@ -121,7 +122,6 @@ public class Server {
             bArrayIS.close();
             ois.close();
             this.response = executeRequest(request);
-            System.out.println(response);
             System.out.println("Выполнена команда: " + commandName);
             readBuffer.clear();
             SelectionKey selectionKey = socketChannel.keyFor(selector);
@@ -145,6 +145,7 @@ public class Server {
             byteArrayOutputStream.close();
             objectOutputStream.close();
             ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+            TimeUnit.MILLISECONDS.sleep(5);
             if (byteBuffer.array().length <= BUFFERSIZE) {
                 socketChannel.write(ByteBuffer.allocateDirect(1));
                 socketChannel.write(ByteBuffer.wrap(buffer));
@@ -167,9 +168,9 @@ public class Server {
                     ret[i].position(0);
                     ret[i].limit(ret[i].capacity());
                     socketChannel.write(ret[i]);
+                    TimeUnit.MILLISECONDS.sleep(5);
                 }
             }
-            System.out.println("check");
             SelectionKey selectionKey = socketChannel.keyFor(selector);
             selectionKey.interestOps(SelectionKey.OP_READ);
             selector.wakeup();

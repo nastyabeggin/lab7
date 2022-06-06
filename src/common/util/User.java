@@ -1,5 +1,7 @@
 package common.util;
 
+import serverModule.util.DataHasher;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,7 +11,7 @@ public class User implements Serializable {
 
     public User(String login, String password) {
         this.login = login;
-        this.password = password;
+        this.password = DataHasher.hash(password);
     }
 
     public String getLogin() {
@@ -25,7 +27,7 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o instanceof User) {
             User userObj = (User) o;
-            return login.equals(userObj.getLogin()) && password.equals(userObj.getPassword());
+            return login.equals(userObj.getLogin()) && DataHasher.hash(password).equals(userObj.getPassword());
         }
         return false;
     }

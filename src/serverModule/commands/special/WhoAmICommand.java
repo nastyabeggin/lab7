@@ -1,11 +1,7 @@
 package serverModule.commands.special;
 
-import clientModule.exceptions.ParamException;
 import common.exceptions.DatabaseManagerException;
-import common.exceptions.MultiUserException;
-import common.exceptions.UserNotFoundException;
 import common.util.User;
-import common.util.response.AuthResponseBody;
 import common.util.response.ResponseBody;
 import serverModule.collection.CollectionManager;
 import serverModule.commands.AbstractCommand;
@@ -21,6 +17,9 @@ public class WhoAmICommand extends AbstractCommand {
 
     @Override
     public ResponseBody execute(String argument, Object objectArgument, User user) {
+        if (user == null){
+            return new ResponseBody("Вы не авторизованы, войдите в аккаунт! \n");
+        }
         try {
             return new ResponseBody("Пользователь с логином " + user.getLogin() + " с id " + databaseUserManager.getUserIdByUsername(user.getLogin()) + "\n");
         } catch (DatabaseManagerException ex) {
