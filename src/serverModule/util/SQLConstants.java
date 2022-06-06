@@ -138,4 +138,8 @@ public class SQLConstants {
     public static final String SELECT_DISCIPLINE_BY_NAME = "SELECT * FROM " + DISCIPLINE_TABLE +
             " WHERE " + DISCIPLINE_TABLE_NAME_COLUMN + " = ?";
 
+    public static final String DELETE_LABWORK_BY_ID_AND_USER_ID = "DELETE FROM " + LABWORK_TABLE +
+            " WHERE " + LABWORK_TABLE_ID_COLUMN + " = ?" + " AND " +
+            LABWORK_TABLE_USER_ID_COLUMN + " = ?";
+
 }

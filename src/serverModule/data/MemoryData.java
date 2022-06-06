@@ -47,5 +47,11 @@ public final class MemoryData {
         return new HashMap<>(disciplines);
     }
 
-
+    public static StringBuilder getLabsInString(){
+        StringBuilder out = new StringBuilder();
+        for (Map.Entry<Long, LabWork> entry : labs.entrySet()) {
+            out.append(entry.getValue().toPrintableString() + "\n\n");
+        }
+        return out;
+    }
 }

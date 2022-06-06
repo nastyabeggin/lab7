@@ -48,4 +48,26 @@ public class DatabaseLabWorkManager {
             databaseManager.closePreparedStatement(preparedStatement);
         }
     }
+
+    public void deleteLabWorkByIdAndUserId(int labWorkId, int userId) throws DatabaseManagerException {
+        PreparedStatement deleteStudyGroup = null;
+        PreparedStatement deleteCoordinates = null;
+        PreparedStatement deletePerson = null;
+        PreparedStatement deleteLocation = null;
+        try {
+            deleteStudyGroup = databaseManager.doPreparedStatement(SQLConstants.DELETE_LABWORK_BY_ID_AND_USER_ID, false);
+            deleteStudyGroup.setLong(1, labWorkId);
+            deleteStudyGroup.setLong(2, userId);
+            System.out.println(labWorkId + " " + userId);
+            if (deleteStudyGroup.executeUpdate() == 0) throw new SQLException();
+        } catch (SQLException exception) {
+            System.out.println("Произошла ошибка при выполнении запроса DELETE_GROUP_BY_ID!");
+            throw new DatabaseManagerException();
+        } finally {
+            databaseManager.closePreparedStatement(deleteStudyGroup);
+            databaseManager.closePreparedStatement(deleteCoordinates);
+            databaseManager.closePreparedStatement(deletePerson);
+            databaseManager.closePreparedStatement(deleteLocation);
+        }
+    }
 }

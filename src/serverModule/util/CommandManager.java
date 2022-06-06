@@ -81,10 +81,12 @@ public class CommandManager {
         addCommand(new HelpCommand(collectionManager, SQLConstants, databaseUserManager, databaseLabWorkManager, databaseCoordinatesManager, databaseDisciplineManager));
         addCommand(new WhoAmICommand(collectionManager, databaseUserManager));
         addCommand(new LogOutCommand(collectionManager, databaseUserManager));
+        addCommand(new RemoveByIdCommand(collectionManager, databaseUserManager, databaseLabWorkManager));
+        addCommand(new ExitCommand(collectionManager));
+        addCommand(new ShowCommand(collectionManager, databaseLabWorkManager));
 
 
-//        addCommand(new ShowCommand(collectionManager, SQLConstants));
-//        addCommand(new HelpCommand(collectionManager, SQLConstants));
+
 //        addCommand(new AddLabWorkIfMinCommand(collectionManager, SQLConstants));
 //        addCommand(new AverageOfAveragePointCommand(collectionManager, SQLConstants));
 //        addCommand(new ClearCommand(collectionManager, SQLConstants));

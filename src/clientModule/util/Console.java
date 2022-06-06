@@ -91,9 +91,12 @@ public class Console {
                     return CommandCode.ADD;
                 case "remove_all_by_minimal_point":
                 case "count_less_than_average_point":
-                case "remove_lower":
                     if (commandArguments.isEmpty()) throw new ParamException();
                     return CommandCode.PARAM;
+                case "remove_lower":
+                case "remove_by_id":
+                    if (commandArguments.isEmpty()) throw new ParamException();
+                    return CommandCode.USER;
                 case "update":
                     if (commandArguments.isEmpty()) throw new ParamException();
                     return CommandCode.UPDATE;
