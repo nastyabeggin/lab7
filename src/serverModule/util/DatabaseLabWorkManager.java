@@ -46,28 +46,24 @@ public class DatabaseLabWorkManager {
             throw new DatabaseManagerException();
         } finally {
             databaseManager.closePreparedStatement(preparedStatement);
+            databaseManager.doInit();
         }
     }
 
     public void deleteLabWorkByIdAndUserId(int labWorkId, int userId) throws DatabaseManagerException {
-        PreparedStatement deleteStudyGroup = null;
-        PreparedStatement deleteCoordinates = null;
-        PreparedStatement deletePerson = null;
-        PreparedStatement deleteLocation = null;
+        PreparedStatement deleteLabWork = null;
         try {
-            deleteStudyGroup = databaseManager.doPreparedStatement(SQLConstants.DELETE_LABWORK_BY_ID_AND_USER_ID, false);
-            deleteStudyGroup.setLong(1, labWorkId);
-            deleteStudyGroup.setLong(2, userId);
+            deleteLabWork = databaseManager.doPreparedStatement(SQLConstants.DELETE_LABWORK_BY_ID_AND_USER_ID, false);
+            deleteLabWork.setLong(1, labWorkId);
+            deleteLabWork.setLong(2, userId);
             System.out.println(labWorkId + " " + userId);
-            if (deleteStudyGroup.executeUpdate() == 0) throw new SQLException();
+            if (deleteLabWork.executeUpdate() == 0) throw new SQLException();
         } catch (SQLException exception) {
-            System.out.println("Произошла ошибка при выполнении запроса DELETE_GROUP_BY_ID!");
+            System.out.println("Произошла ошибка при выполнении запроса DELETE_LABWORK_BY_ID_AND_USER_ID!");
             throw new DatabaseManagerException();
         } finally {
-            databaseManager.closePreparedStatement(deleteStudyGroup);
-            databaseManager.closePreparedStatement(deleteCoordinates);
-            databaseManager.closePreparedStatement(deletePerson);
-            databaseManager.closePreparedStatement(deleteLocation);
+            databaseManager.closePreparedStatement(deleteLabWork);
+            databaseManager.doInit();
         }
     }
 }

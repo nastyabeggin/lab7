@@ -155,6 +155,11 @@ public class DatabaseManager {
         }
     }
 
+    public void doInit(){
+        initDisciplinesFromDb();
+        initCoordsFromDb();
+        initCoordsFromDb();
+    }
     private void initUsersFromDb() {
         PreparedStatement preparedStatement = null;
         try {

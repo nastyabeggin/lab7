@@ -84,6 +84,9 @@ public class CommandManager {
         addCommand(new RemoveByIdCommand(collectionManager, databaseUserManager, databaseLabWorkManager));
         addCommand(new ExitCommand(collectionManager));
         addCommand(new ShowCommand(collectionManager, databaseLabWorkManager));
+        addCommand(new InfoCommand(collectionManager));
+        addCommand(new HistoryCommand(collectionManager));
+
 
 
 
@@ -91,10 +94,7 @@ public class CommandManager {
 //        addCommand(new AverageOfAveragePointCommand(collectionManager, SQLConstants));
 //        addCommand(new ClearCommand(collectionManager, SQLConstants));
 //        addCommand(new CountLessThanAveragePointCommand(collectionManager, SQLConstants));
-//        addCommand(new HistoryCommand(collectionManager, SQLConstants));
-//        addCommand(new InfoCommand(collectionManager, SQLConstants));
 //        addCommand(new RemoveLowerCommand(collectionManager, SQLConstants));
-//        addCommand(new RemoveByIdCommand(collectionManager, SQLConstants));
 //        addCommand(new RemoveAllByMinimalPointCommand(collectionManager, SQLConstants));
 //        addCommand(new UpdateIdCommand(collectionManager, SQLConstants));
 //        addCommand(new ExecuteScriptCommand(collectionManager, SQLConstants));

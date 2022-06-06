@@ -5,6 +5,7 @@ import common.util.response.ResponseBody;
 import serverModule.commands.*;
 import serverModule.collection.CollectionManager;
 import serverModule.commands.exceptions.CommandException;
+import serverModule.data.MemoryData;
 import serverModule.util.ResponseOutputer;
 
 /**
@@ -17,6 +18,6 @@ public class InfoCommand extends AbstractCommand{
 
     @Override
     public ResponseBody execute(String params, Object objectArgument, User user) throws CommandException {
-        return new ResponseBody(collectionManager.getInfo() + "\n");
+        return new ResponseBody(MemoryData.getInfo() + "\n");
     }
 }

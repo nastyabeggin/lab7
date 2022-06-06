@@ -54,4 +54,9 @@ public final class MemoryData {
         }
         return out;
     }
+
+    public static String getInfo(){
+        return "В памяти находятся " + getLabs().size() + " лабораторных, "
+                + getCoords().size() + " координат, " + getDisciplines().size() + " дисциплин.";
+    }
 }
