@@ -15,39 +15,39 @@ public final class MemoryData {
     private static final Map<Long, Coordinates> coords = new HashMap<>();
     private static final Map<Long, Discipline> disciplines = new HashMap<>();
 
-    public static void putUser(Long id, User user) {
+    public static synchronized void putUser(Long id, User user) {
         users.put(id, user);
     }
 
-    public static void putLab(Long id, LabWork labWork) {
+    public static synchronized void putLab(Long id, LabWork labWork) {
         labs.put(id, labWork);
     }
 
-    public static void putCoords(Long id, Coordinates coordinates) {
+    public static synchronized void putCoords(Long id, Coordinates coordinates) {
         coords.put(id, coordinates);
     }
 
-    public static void putDiscipline(Long id, Discipline discipline) {
+    public static synchronized void putDiscipline(Long id, Discipline discipline) {
         disciplines.put(id, discipline);
     }
 
-    public static Map<Long, User> getUsers() {
+    public static synchronized Map<Long, User> getUsers() {
         return new HashMap<>(users);
     }
 
-    public static Map<Long, LabWork> getLabs() {
+    public static synchronized Map<Long, LabWork> getLabs() {
         return new HashMap<>(labs);
     }
 
-    public static Map<Long, Coordinates> getCoords() {
+    public static synchronized Map<Long, Coordinates> getCoords() {
         return new HashMap<>(coords);
     }
 
-    public static Map<Long, Discipline> getDisciplines() {
+    public static synchronized Map<Long, Discipline> getDisciplines() {
         return new HashMap<>(disciplines);
     }
 
-    public static StringBuilder getLabsInString(){
+    public static synchronized StringBuilder getLabsInString(){
         StringBuilder out = new StringBuilder();
         for (Map.Entry<Long, LabWork> entry : labs.entrySet()) {
             out.append(entry.getValue().toPrintableString() + "\n\n");
@@ -55,7 +55,7 @@ public final class MemoryData {
         return out;
     }
 
-    public static String getInfo(){
+    public static synchronized String getInfo(){
         return "В памяти находятся " + getLabs().size() + " лабораторных, "
                 + getCoords().size() + " координат, " + getDisciplines().size() + " дисциплин.";
     }
